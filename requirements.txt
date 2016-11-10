@@ -1,2 +1,9 @@
 Django
 django-debug-toolbar
+Celery
+django-split-settings
+django-extensions
+django-haystack
+djangorestframework
+markdown
+django-filter

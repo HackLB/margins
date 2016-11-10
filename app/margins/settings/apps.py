@@ -31,8 +31,6 @@ INSTALLED_APPS += CORE_APPS
 
 ADDED_APPS = [
     'django_extensions',
-    'djcelery',
-    'kombu.transport.django',
     'haystack',
     'rest_framework',
 ]
