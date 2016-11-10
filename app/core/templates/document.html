@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Asset: {{ this_photo }}
+{% endblock title %}
+
+{% block css %}
+  <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+  <link href='/static/css/home.css' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block content %}
+
+<h2>{{ this_manufacturer }}</h2>
+
+{% for this_model in models %}
+<li><a href="{{ this_model.get_absolute_url }}">{{ this_model.title }}</a></li>
+{% endfor %}
+
+{% endblock content %}
+
+{% block js %}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAP_API_KEY }}&libraries=places"></script>
+<script src="/static/js/home.js"></script>
+{% endblock js %}
