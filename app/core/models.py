@@ -1,13 +1,8 @@
 from django.db import models
-
-import os, uuid, mimetypes
+import os, uuid
 
 from django.core.urlresolvers import reverse
-import simplejson as json
 from PIL import Image
-import requests
-
-from djmoney.models.fields import MoneyField
 
 from django.contrib.postgres.fields import JSONField
 
