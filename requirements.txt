@@ -7,3 +7,8 @@ django-haystack
 djangorestframework
 markdown
 django-filter
+psycopg2
+simplejson
+Pillow
+requests
+elasticsearch
