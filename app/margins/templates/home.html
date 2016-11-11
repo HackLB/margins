@@ -10,15 +10,28 @@
 
 {% block content %}
 
-<h2>Welcome to Metaseum</h2>
+<h2>Welcome to Margins</h2>
 
-{% for this_manufacturer in manufacturers %}
-<li><a href="{{ this_manufacturer.get_absolute_url }}">{{ this_manufacturer }}</a></li>
-{% endfor %}
+<table class="table table-striped table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>Filename</th>
+			<th>Size</th>
+		</tr>
+	</thead>
+
+	<tbody>
+	{% for this_document in documents %}
+		<tr>
+			<td><a href="{{ this_document.get_absolute_url }}">{{ this_document }}</a></td>
+			<td>{% if this_document.original %}{{ this_document.original.size | filesizeformat }}{% endif %}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
 
 {% endblock content %}
 
 {% block js %}
-<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAP_API_KEY }}&libraries=places"></script>
 <script src="/static/js/home.js"></script>
 {% endblock js %}

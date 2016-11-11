@@ -9,7 +9,7 @@ Database settings for margins project.
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": PROJECT_NAME,
         "USER": 'rogerhoward',
         "PASSWORD": "",
@@ -17,3 +17,4 @@ DATABASES = {
         "PORT": "",
     }
 }
+

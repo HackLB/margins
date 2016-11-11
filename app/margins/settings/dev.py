@@ -8,7 +8,7 @@ development-only settings for margins
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 STAGE = 'dev'
 ALLOWED_HOSTS = '*'
 

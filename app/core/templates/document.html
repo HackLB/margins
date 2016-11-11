@@ -10,11 +10,9 @@
 
 {% block content %}
 
-<h2>{{ this_manufacturer }}</h2>
+<h2>{{ this_document }}</h2>
 
-{% for this_model in models %}
-<li><a href="{{ this_model.get_absolute_url }}">{{ this_model.title }}</a></li>
-{% endfor %}
+<a href="{{ this_document.original.url }}">{{ this_document }}</a>
 
 {% endblock content %}
 

@@ -1,11 +1,12 @@
-from django.db import models
 import os, uuid
+
+from django.contrib.gis.db import models
+from django.contrib.postgres.fields import JSONField
 
 from django.core.urlresolvers import reverse
 from PIL import Image
 
-from django.contrib.postgres.fields import JSONField
-
+from haystack.utils.geo import Point
 
 # --------------------------------------------------
 # Abstract base classes
@@ -31,8 +32,7 @@ class DescriptiveBaseClass(models.Model):
     A descriptive abstract base class for primary classes provides basic descriptive fields, 
     a la Dublin Core, for concrete classes to use as a mixin.
     """
-    title = models.CharField(null=True, blank=True, db_index=True, max_length=256, )
-    kind = models.CharField(null=True, blank=True, db_index=True, max_length=64, )
+    name = models.CharField(null=True, blank=True, db_index=True, max_length=256, )
     description = models.TextField(null=True, blank=True, )
 
     class Meta:
@@ -59,14 +59,58 @@ class Document(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
     """
     Represents a unique vehicle manufacturer.
     """
+
+    original = models.FileField(upload_to='legistar', null=True, blank=True, max_length=1024, )
+    md5 = models.CharField(null=True, blank=True, db_index=True, max_length=64, )
+    meeting = models.ForeignKey('Body', related_name='documents', null=True, blank=True, )
+
     def __str__(self):
-        if self.title:
-            return self.title
+        if self.original:
+            return self.original.name
         else:
             return 'unnamed document'
 
     def get_absolute_url(self):
         return reverse('document_details', args=[str(self.pk)])
+
+
+
+class Meeting(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
+    """
+    Represents a unique meeting instance.
+    """
+
+    body = models.ForeignKey('Body', related_name='meetings', )
+    guid = models.CharField(max_length=64, db_index=True, )
+
+    location = models.TextField(null=True, blank=True, )
+    coordinates = models.PointField(null=True, blank=True,)
+
+    def __str__(self):
+        if self.title:
+            return self.title
+        else:
+            return self.slug
+
+    def get_absolute_url(self):
+        return reverse('body_details', args=[str(self.pk)])
+
+
+class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
+    """
+    Represents a unique vehicle manufacturer.
+    """
+
+    slug = models.CharField(max_length=1024, db_index=True, )
+
+    def __str__(self):
+        if self.title:
+            return self.title
+        else:
+            return self.slug
+
+    def get_absolute_url(self):
+        return reverse('body_details', args=[str(self.pk)])
 
 
 

@@ -19,12 +19,12 @@ class HomeView(View):
         return 'HomeView'
 
     def get(self, request):
-        manufacturers = core.models.Manufacturer.objects.all()
-        return render_to_response(self.template, {'manufacturers': manufacturers})
+        documents = core.models.Document.objects.all()
+        return render_to_response(self.template, {'documents': documents})
 
 
 class DocumentView(View):
-    template = 'document.html'
+    template = 'pdf.html'
 
     def __str__(self):
         return 'DocumentView'

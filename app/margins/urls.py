@@ -18,6 +18,7 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.conf import settings
 from django.views.static import serve as static_serve
+
 from django.contrib.auth import views as auth_views
 
 import core.views
@@ -41,9 +42,19 @@ urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
+urlpatterns += [
+    url(r'^media/(?P<path>.*)$', static_serve, {
+        'document_root': settings.MEDIA_ROOT,
+    }),
+    url(r'^static/(?P<path>.*)$', static_serve, {
+        'document_root': settings.STATIC_ROOT,
+    }),
+]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
+
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
