@@ -116,6 +116,29 @@ class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
         return reverse('body_details', args=[str(self.pk)])
 
 
+
+
+    # data['coordinates'] = 'POINT({} {})'.format(data['X'], data['Y'])
+
+
+@receiver(pre_save, sender=Meeting)
+def meeting_location(sender, instance, *args, **kwargs):
+    """
+    Creates a Metadata instance whenever an Asset is added, and
+    then extracts the metadata and populates the Metadata instance
+    """
+    if instance.json and ('coordinates' in instance.json) and (not instance.coordinates):
+        print('saving coordinates...')
+        lat = instance.json['coordinates']['latitude']
+        lon = instance.json['coordinates']['longitude']
+        instance.coordinates = 'POINT({} {})'.format(lon, lat)
+
+    if instance.json and ('coordinates' in instance.json) and (not instance.location):
+        print('saving location...')
+        instance.location = instance.json['coordinates']['address']
+
+
+
 @receiver(post_save, sender=Meeting)
 def meeting_json(sender, instance, created, **kwargs):
     """
