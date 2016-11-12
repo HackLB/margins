@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Meeting: {{ this_meeting }}
+{% endblock title %}
+
+{% block css %}
+
+  <link href='/static/css/meeting.css' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block content %}
+
+<h2>{{ this_meeting }}</h2>
+
+<a href="{{ this_meeting.body.get_absolute_url }}">{{ this_meeting.body }}</a>
+
+<h4>Documents:</h4>
+
+{% for document in this_meeting.documents.all %}
+<li><a href="{{ document.get_absolute_url }}">{{ document }}</a></li>
+{% endfor %}
+
+{% endblock content %}
+
+{% block js %}
+<script src="/static/js/meeting.js"></script>
+{% endblock js %}

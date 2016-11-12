@@ -7,3 +7,18 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = core.models.Document
+        fields = '__all__'
+
+
+class BodySerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = core.models.Body
+        fields = '__all__'
+
+
+class MeetingSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = core.models.Meeting
+        fields = '__all__'

@@ -24,7 +24,7 @@ class HomeView(View):
 
 
 class DocumentView(View):
-    template = 'pdf.html'
+    template = 'document.html'
 
     def __str__(self):
         return 'DocumentView'
@@ -32,3 +32,25 @@ class DocumentView(View):
     def get(self, request, guid):
         this_document = get_object_or_404(core.models.Document, pk=guid)
         return render_to_response(self.template, {'this_document': this_document})
+
+
+class MeetingView(View):
+    template = 'meeting.html'
+
+    def __str__(self):
+        return 'MeetingView'
+
+    def get(self, request, guid):
+        this_meeting = get_object_or_404(core.models.Meeting, pk=guid)
+        return render_to_response(self.template, {'this_meeting': this_meeting})
+
+
+class BodyView(View):
+    template = 'body.html'
+
+    def __str__(self):
+        return 'BodyView'
+
+    def get(self, request, guid):
+        this_body = get_object_or_404(core.models.Body, pk=guid)
+        return render_to_response(self.template, {'this_body': this_body})

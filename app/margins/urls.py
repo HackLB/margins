@@ -31,12 +31,17 @@ from core import viewsets
 urlpatterns = [
     url(r'^$', core.views.HomeView.as_view(), name='home'),
     url(r'^admin/', admin.site.urls),
+    url(r'^body/(?P<guid>.*)$', core.views.BodyView.as_view(), name='body_details'),
     url(r'^document/(?P<guid>.*)$', core.views.DocumentView.as_view(), name='document_details'),
+    url(r'^meeting/(?P<guid>.*)$', core.views.MeetingView.as_view(), name='meeting_details'),
 
 ]
 
 router = routers.DefaultRouter()
 router.register(r'document', core.viewsets.DocumentViewSet)
+router.register(r'body', core.viewsets.BodyViewSet)
+router.register(r'meeting', core.viewsets.MeetingViewSet)
+
 urlpatterns += [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Body: {{ this_body }}
+{% endblock title %}
+
+{% block css %}
+
+  <link href='/static/css/body.css' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block content %}
+
+<h2>{{ this_body }}</h2>
+
+<h4>Meetings:</h4>
+
+{% for meeting in this_body.meetings.all %}
+<li><a href="{{ meeting.get_absolute_url }}">{{ meeting }}</a></li>
+{% endfor %}
+
+{% endblock content %}
+
+{% block js %}
+<script src="/static/js/body.js"></script>
+{% endblock js %}

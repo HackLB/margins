@@ -2,8 +2,11 @@ import os, uuid
 
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
-
+from django.db.models.signals import pre_save, post_save, post_delete, pre_delete
+from django.dispatch import receiver
 from django.core.urlresolvers import reverse
+from django.utils.dateparse import parse_datetime
+from django.utils.timezone import is_aware, make_aware
 from PIL import Image
 
 from haystack.utils.geo import Point
@@ -62,17 +65,16 @@ class Document(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
 
     original = models.FileField(upload_to='legistar', null=True, blank=True, max_length=1024, )
     md5 = models.CharField(null=True, blank=True, db_index=True, max_length=64, )
-    meeting = models.ForeignKey('Body', related_name='documents', null=True, blank=True, )
+    meeting = models.ForeignKey('Meeting', related_name='documents', null=True, blank=True, )
 
     def __str__(self):
         if self.original:
-            return self.original.name
+            return '/'.join(self.original.url.split('/')[-2:])
         else:
             return 'unnamed document'
 
     def get_absolute_url(self):
         return reverse('document_details', args=[str(self.pk)])
-
 
 
 class Meeting(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
@@ -85,15 +87,16 @@ class Meeting(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
 
     location = models.TextField(null=True, blank=True, )
     coordinates = models.PointField(null=True, blank=True,)
+    time = models.DateTimeField(null=True, blank=True, db_index = True, )
 
     def __str__(self):
-        if self.title:
-            return self.title
+        if self.name:
+            return '{}, {}'.format(self.name, self.time)
         else:
-            return self.slug
+            return 'meeting: {}'.format(self.guid)
 
     def get_absolute_url(self):
-        return reverse('body_details', args=[str(self.pk)])
+        return reverse('meeting_details', args=[str(self.pk)])
 
 
 class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
@@ -104,8 +107,8 @@ class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
     slug = models.CharField(max_length=1024, db_index=True, )
 
     def __str__(self):
-        if self.title:
-            return self.title
+        if self.name:
+            return self.name
         else:
             return self.slug
 
@@ -113,5 +116,22 @@ class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
         return reverse('body_details', args=[str(self.pk)])
 
 
+@receiver(post_save, sender=Meeting)
+def meeting_json(sender, instance, created, **kwargs):
+    """
+    Creates a Metadata instance whenever an Asset is added, and
+    then extracts the metadata and populates the Metadata instance
+    """
+    if created and instance.json:
+        print('new meeting, json processing')
+        instance.name = instance.json['name']
 
+        parsed_datetime = parse_datetime(instance.json['datetime'])
+        if not is_aware(parsed_datetime):
+            parsed_datetime = make_aware(parsed_datetime)
+        instance.time = parsed_datetime
+
+        instance.source_url = instance.json['link']
+
+        instance.save()
         
