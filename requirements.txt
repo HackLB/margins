@@ -12,3 +12,4 @@ simplejson
 Pillow
 requests
 elasticsearch
+pdfminer.six

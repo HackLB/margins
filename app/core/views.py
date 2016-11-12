@@ -19,8 +19,9 @@ class HomeView(View):
         return 'HomeView'
 
     def get(self, request):
+        bodies = core.models.Body.objects.all().prefetch_related('meetings')
         documents = core.models.Document.objects.all()
-        return render_to_response(self.template, {'documents': documents})
+        return render_to_response(self.template, {'bodies': bodies, 'documents': documents})
 
 
 class DocumentView(View):

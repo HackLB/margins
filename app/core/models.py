@@ -104,7 +104,7 @@ class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
     Represents a unique vehicle manufacturer.
     """
 
-    slug = models.CharField(max_length=1024, db_index=True, )
+    slug = models.CharField(max_length=1024, db_index=True, unique=True, )
 
     def __str__(self):
         if self.name:
