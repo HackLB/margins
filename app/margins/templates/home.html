@@ -13,16 +13,23 @@
 <h2>Welcome to Margins</h2>
 
 {% for body in bodies %}
-<h3>{{ body }}</h3>
 
-	{% for meeting in body.meetings.all %}
-	<h4>{{ meeting }}</h4>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><a href="{{ body.get_absolute_url }}">{{ body }}</a></h3>
+  </div>
+  <div class="panel-body">
+    {% for meeting in body.meetings.all %}
+	<h4><a href="{{ meeting.get_absolute_url }}">Meeting on {{ meeting.time }}</a></h4>
 
 		{% for document in meeting.documents.all %}
-		<li>{{ document }}</li>
+		<li><a href="{{ document.get_absolute_url }}">{{ document }}</a></li>
 		{% endfor %}
 
 	{% endfor %}
+  </div>
+</div>
+
 
 {% endfor %}
 
