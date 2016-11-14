@@ -12,9 +12,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        models = [core.models.Document, ]
+        models = [core.models.Body, core.models.Document, core.models.Meeting, ]
 
         for this_model in models:
             count = this_model.objects.all().count()
             print('{}: {}'.format(this_model, count))
-
