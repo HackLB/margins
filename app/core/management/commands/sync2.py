@@ -54,7 +54,7 @@ class Command(BaseCommand):
 
         for directory, directories, files in os.walk(documents_path, topdown=False):
             for name in files:
-                if name.endswith('.pdf'):
+                if name in ['agenda.pdf', 'minutes.pdf', ]:
 
                     path = os.path.join(directory, name)
                     meeting = get_meeting_from(path)
