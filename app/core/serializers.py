@@ -22,3 +22,10 @@ class MeetingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = core.models.Meeting
         fields = '__all__'
+
+
+class AgendaItemSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = core.models.AgendaItem
+        fields = '__all__'

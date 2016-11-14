@@ -28,3 +28,11 @@ class MeetingViewSet(viewsets.ModelViewSet):
     """
     queryset = core.models.Meeting.objects.all()
     serializer_class = core.serializers.MeetingSerializer
+
+
+class AgendaItemViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows meeting Agenda Items to be viewed or edited.
+    """
+    queryset = core.models.AgendaItem.objects.all()
+    serializer_class = core.serializers.AgendaItemSerializer

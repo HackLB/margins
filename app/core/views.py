@@ -55,3 +55,16 @@ class BodyView(View):
     def get(self, request, guid):
         this_body = get_object_or_404(core.models.Body, pk=guid)
         return render_to_response(self.template, {'this_body': this_body})
+
+
+class AgendaItemView(View):
+    template = 'agendaitem.html'
+
+    def __str__(self):
+        return 'AgendaItemView'
+
+    def get(self, request, guid):
+        agenda_item = get_object_or_404(core.models.AgendaItem, pk=guid)
+        return render_to_response(self.template, {'agenda_item': agenda_item})
+
+

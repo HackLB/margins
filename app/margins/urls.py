@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^document/(?P<guid>.*)$', core.views.DocumentView.as_view(), name='document_details'),
     url(r'^meeting/(?P<guid>.*)$', core.views.MeetingView.as_view(), name='meeting_details'),
 
+    url(r'^agendaitem/(?P<guid>.*)$', core.views.AgendaItemView.as_view(), name='agendaitem_details'),
 ]
 
 router = routers.DefaultRouter()

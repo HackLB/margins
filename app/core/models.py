@@ -66,6 +66,7 @@ class Document(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
     original = models.FileField(upload_to='legistar', null=True, blank=True, max_length=1024, )
     md5 = models.CharField(null=True, blank=True, db_index=True, max_length=64, )
     meeting = models.ForeignKey('Meeting', related_name='documents', null=True, blank=True, )
+    agenda_item = models.ForeignKey('AgendaItem', related_name='attachments', null=True, blank=True, )
 
     def __str__(self):
         if self.original:
@@ -116,9 +117,22 @@ class Body(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
         return reverse('body_details', args=[str(self.pk)])
 
 
+class AgendaItem(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
+    """
+    Represents a unique vehicle manufacturer.
+    """
 
+    name = models.CharField(max_length=256, db_index=True, )
+    description = models.TextField(null=True, blank=True, )
+    number = models.IntegerField(db_index=True, )
+    type = models.CharField(max_length=256, db_index=True, null=True, blank=True, )
 
-    # data['coordinates'] = 'POINT({} {})'.format(data['X'], data['Y'])
+    def __str__(self):
+        return '{}: {}'.format(self.number, self.name)
+
+    def get_absolute_url(self):
+        return reverse('agendaitem_details', args=[str(self.pk)])
+
 
 
 @receiver(pre_save, sender=Meeting)
