@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import is_aware, make_aware
 from PIL import Image
+from core.utils.pdf import PDF
 
 from haystack.utils.geo import Point
 
@@ -68,6 +69,8 @@ class Document(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
     meeting = models.ForeignKey('Meeting', related_name='documents', null=True, blank=True, )
     agenda_item = models.ForeignKey('AgendaItem', related_name='attachments', null=True, blank=True, )
 
+    text = models.TextField(null=True, blank=True, )
+
     def __str__(self):
         if self.original:
             return '/'.join(self.original.url.split('/')[-2:])
@@ -76,6 +79,21 @@ class Document(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
 
     def get_absolute_url(self):
         return reverse('document_details', args=[str(self.pk)])
+
+
+@receiver(pre_save, sender=Document)
+def document_text(sender, instance, *args, **kwargs):
+    """
+    Creates a Metadata instance whenever an Asset is added, and
+    then extracts the metadata and populates the Metadata instance
+    """
+    if instance.original and not instance.text and instance.original.path.endswith('.pdf'):
+        print('Extracting text from {}...'.format(instance.pk))
+        pdf = PDF(instance.original.path)
+        if pdf:
+            instance.text = pdf.text
+    else:
+        print('Skipping extraction from {}...'.format(instance.pk))
 
 
 class Meeting(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
