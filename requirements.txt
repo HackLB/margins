@@ -13,3 +13,4 @@ Pillow
 requests
 elasticsearch
 pdfminer.six
+PyPDF2
