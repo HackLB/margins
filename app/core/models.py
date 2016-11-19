@@ -124,7 +124,9 @@ class AgendaItem(GenericBaseClass, DescriptiveBaseClass, InternetResourceClass):
 
     name = models.CharField(max_length=256, db_index=True, )
     description = models.TextField(null=True, blank=True, )
-    number = models.IntegerField(db_index=True, )
+    number = models.IntegerField(db_index=True, null=True, blank=True, )
+    version = models.IntegerField(db_index=True, )
+    meeting = models.ForeignKey('Meeting', related_name='agenda_items', null=True, blank=True, )
     type = models.CharField(max_length=256, db_index=True, null=True, blank=True, )
 
     def __str__(self):
