@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 
-import os
 from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-import core.models
-
+import django.apps
 
 class Command(BaseCommand):
-    args = '<dir>'
-    help = 'Counts objects'
-
+    help = 'Counts model instances'
 
     def handle(self, *args, **options):
-        models = [core.models.Body, core.models.Document, core.models.Meeting, ]
-
-        for this_model in models:
+        for this_model in django.apps.apps.get_models():
             count = this_model.objects.all().count()
             print('{}: {}'.format(this_model, count))
+            
