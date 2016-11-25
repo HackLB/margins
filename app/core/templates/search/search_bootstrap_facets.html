@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!-- row -->
+<div class="row">
+
+    <!-- left column -->
+    <div class="col-md-3">
+        {% include "search/faceting.html" %}
+    </div>
+    <!-- /left column -->
+
+    <!-- right column -->
+    <div class="col-md-9">
+    {% if object_list %}
+
+    <h3>Search Results ({{ paginator.count }})</h3>
+
+    {% include "search/includes/pager.html" %}
+    <table class="table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>PMY</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for result in object_list %}
+            <tr>
+                <td><a href="{{ result.object.get_absolute_url }}">**</a></td>
+                <td><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a></td>
+            </tr>
+        {% empty %}
+        <p>No results found B.</p>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% include "search/includes/pager.html" %}
+
+    {% else %}
+        Print some instructions...
+    {% endif %}
+    </div>
+    <!-- /right column -->
+
+</div>
+<!-- /row -->
+
+{% endblock %}

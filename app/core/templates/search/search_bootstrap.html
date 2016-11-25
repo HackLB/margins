@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!-- row -->
+<div class="row">
+
+    <!-- right column -->
+    <div class="col-md-12">
+    {% if object_list %}
+
+    <h3>Search Results ({{ paginator.count }})</h3>
+
+    {% include "search/includes/pager.html" %}
+    <table class="table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Part ID</th>
+                <th>Part Info</th>
+                <th>Component</th>
+                <th>Model Year</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for result in object_list %}
+            <tr>
+                <td><a href="{{ result.object.part.get_absolute_url }}">{{ result.object.part.part_id }}</a></td>
+                <td>{{ result.object.part.title }}</td>
+                <td>{{ result.object.component }}</td>
+                <td><a href="{{ result.object.modelyear.get_absolute_url }}">{{ result.object.modelyear }}</a></td>
+            </tr>
+        {% empty %}
+        <p>No results found B.</p>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% include "search/includes/pager.html" %}
+
+    {% else %}
+        Print some instructions...
+    {% endif %}
+    </div>
+    <!-- /right column -->
+
+</div>
+<!-- /row -->
+
+{% endblock %}

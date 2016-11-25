@@ -1,0 +1,73 @@
+<form method="get" action=".">
+    <table>
+        <tbody>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Search"></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+{% if query %}
+    <!-- Begin faceting. -->
+    <h2>Facets</h2>
+
+    <div>
+        <!-- facet: manufacturer -->
+        <dl>
+            {% if facets.fields.manufacturer %}
+                <dt>manufacturer</dt>
+                {# Provide only the top 5 authors #}
+                {% for manufacturer in facets.fields.manufacturer %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=manufacturer_exact:{{ manufacturer.0|urlencode }}">{{ manufacturer.0 }}</a> ({{ manufacturer.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No manufacturer facets.</p>
+            {% endif %}
+        </dl>
+        <!-- /facet: manufacturer -->
+        <!-- facet: year -->
+        <dl>
+            {% if facets.fields.year %}
+                <dt>year</dt>
+                {# Provide only the top 5 authors #}
+                {% for year in facets.fields.year %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=year_exact:{{ year.0|urlencode }}">{{ year.0 }}</a> ({{ year.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No year facets.</p>
+            {% endif %}
+        </dl>
+        <!-- /facet: year -->
+        <!-- facet: model -->
+        <dl>
+            {% if facets.fields.model %}
+                <dt>model</dt>
+                {# Provide only the top 5 authors #}
+                {% for model in facets.fields.model %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=model_exact:{{ model.0|urlencode }}">{{ model.0 }}</a> ({{ model.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No model facets.</p>
+            {% endif %}
+        </dl>
+        <!-- /facet: model -->
+        <!-- facet: component -->
+        <dl>
+            {% if facets.fields.component %}
+                <dt>Component</dt>
+                {# Provide only the top 5 authors #}
+                {% for component in facets.fields.component %}
+                    <dd><a href="{{ request.get_full_path }}&amp;selected_facets=component_exact:{{ component.0|urlencode }}">{{ component.0 }}</a> ({{ component.1 }})</dd>
+                {% endfor %}
+            {% else %}
+                <p>No component facets.</p>
+            {% endif %}
+        </dl>
+        <!-- /facet: component -->
+    </div>
+    <!-- End faceting -->
+
+{% endif %}

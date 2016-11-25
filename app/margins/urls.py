@@ -27,6 +27,9 @@ import core.viewsets
 from rest_framework import routers
 from core import viewsets
 
+from haystack.forms import FacetedSearchForm
+from haystack.views import FacetedSearchView
+
 
 urlpatterns = [
     url(r'^$', core.views.HomeView.as_view(), name='home'),
@@ -36,6 +39,9 @@ urlpatterns = [
     url(r'^meeting/(?P<guid>.*)$', core.views.MeetingView.as_view(), name='meeting_details'),
 
     url(r'^agendaitem/(?P<guid>.*)$', core.views.AgendaItemView.as_view(), name='agendaitem_details'),
+
+
+    url(r'^search/$', core.views.CustomFacetedSearchView.as_view(), name='haystack_search'),
 ]
 
 router = routers.DefaultRouter()

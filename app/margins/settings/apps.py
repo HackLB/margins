@@ -33,6 +33,7 @@ ADDED_APPS = [
     'django_extensions',
     'haystack',
     'rest_framework',
+    'bootstrap_pagination',
 ]
 INSTALLED_APPS += ADDED_APPS
 
